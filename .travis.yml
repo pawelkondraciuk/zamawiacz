@@ -1,0 +1,22 @@
+language: node_js
+
+node_js:
+   - "7"
+
+cache:
+  directories:
+    - node_modules/
+
+branches:
+   only:
+      - master
+
+before_script:
+  - sudo apt-get update -y -qq
+  - sudo apt-get install rsync -y -qq
+
+script:
+  - npm run build:prerender
+
+after_success:
+  - rsync -avh --delete ./dist/browser/ rsync://zamawiacz@s22.mydevil.net:27313/zamawiacz
