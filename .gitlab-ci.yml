@@ -1,0 +1,19 @@
+image: node:latest
+
+cache:
+  untracked: true
+  key: "$CI_BUILD_REF_NAME"
+  paths:
+    - node_modules/
+  
+before_script:
+  - apt-get update -y -qq
+  - apt-get -o dir::cache::archives="apt-cache" install rsync -y -qq
+  - npm install
+
+stage_deploy:
+  only:
+    - master
+  script:
+    - npm run build:prerender
+    - rsync -avh --delete ./dist/browser/ rsync://zamawiacz@s22.mydevil.net:27313/zamawiacz
