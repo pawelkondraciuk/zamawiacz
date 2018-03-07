@@ -1,7 +1,7 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpModule } from '@angular/http';
+import { BrowserModule } from '@angular/platform-browser';
 
+import { GraphQLModule } from './apollo.config';
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -10,7 +10,7 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'my-app'}),
-    HttpModule,
+    GraphQLModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
