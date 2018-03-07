@@ -10,15 +10,16 @@ const app = express();
 const db = mongoose();
 
 const PORT = process.env.PORT || 4000;
-const env = process.env.NODE_ENV || 'development';
+const ENV = process.env.NODE_ENV || 'development';
+const isDev = ENV === 'development';
 
-if (env !== 'development') {
+if (!isDev) {
   serverSideRenderer(app);
 }
 
 app.use('/graphql', cors(), graphqlHTTP({
   schema: schema,
-  graphiql: true
+  graphiql: isDev
 }));
 
 app.listen(PORT, () => {
