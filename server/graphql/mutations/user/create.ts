@@ -1,4 +1,4 @@
-import { GraphQLNonNull } from 'graphql';
+import { GraphQLNonNull, GraphQLString } from 'graphql';
 
 import UserModel from '../../../models/user';
 import { UserInputType, UserType } from '../../types/user';
@@ -6,8 +6,8 @@ import { UserInputType, UserType } from '../../types/user';
 const createUser = {
   type: UserType,
   args: {
-    input: {
-      type: new GraphQLNonNull(UserInputType),
+    name: {
+      type: new GraphQLNonNull(GraphQLString),
     }
   },
   resolve: async (root, params) => {
