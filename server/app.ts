@@ -2,18 +2,25 @@ import * as cors from 'cors';
 import * as express from 'express';
 import * as graphqlHTTP from 'express-graphql';
 
+import serverSideRenderer from './ssr';
 import mongoose from './config/mongoose';
 import schema from './graphql';
 
 const app = express();
 const db = mongoose();
-const port = process.env.PORT || 3000;
+
+const PORT = process.env.PORT || 4000;
+const env = process.env.NODE_ENV || 'development';
+
+if (env !== 'development') {
+  serverSideRenderer(app);
+}
 
 app.use('/graphql', cors(), graphqlHTTP({
   schema: schema,
   graphiql: true
 }));
 
-app.listen(port, () => {
-  console.log(`A GraphQL API running at port ${port}`);
+app.listen(PORT, () => {
+  console.log(`A GraphQL API running at port ${PORT}`);
 });
