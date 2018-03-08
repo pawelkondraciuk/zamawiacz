@@ -1,11 +1,11 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { Apollo, ApolloModule } from 'apollo-angular';
 import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { AuthService } from '@ngx-auth/core';
 import { setContext } from 'apollo-link-context';
-
+import { onError } from 'apollo-link-error';
 
 @NgModule({
   exports: [
@@ -31,8 +31,15 @@ export class GraphQLModule {
       }
     });
 
+    const error = onError(({ networkError, graphQLErrors }) => {
+      const netErr = networkError as HttpErrorResponse;
+      if (netErr.status === 401) {
+        authService.invalidate();
+      }
+    });
+
     apollo.create({
-      link: auth.concat(http),
+      link: error.concat(auth).concat(http),
       cache: new InMemoryCache()
     });
   }
