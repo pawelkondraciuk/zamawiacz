@@ -54,7 +54,17 @@ app.get('/auth/google/callback',
         expiresIn: config.auth.token.expiresIn
       });
 
-      res.redirect(`/login/${token}`);
+      res.send(`
+        <script>
+          localStorage.setItem('currentUser', JSON.stringify({token: '${token}'}));
+          if (window.opener) {
+            window.opener.location.href = '/';
+            window.close();
+          } else {
+            window.location.href = '/';
+          }
+        </script>
+      `);
   });
 
 app.listen(PORT, () => {

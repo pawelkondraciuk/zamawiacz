@@ -1,6 +1,7 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-import { UserDataService } from '../shared/user-data.service';
-import { User } from '../models/user';
+import { UserDataService } from '../shared/services/user-data.service';
+import { User } from '../shared/models/user';
+import { AuthService } from '@ngx-auth/core';
 
 @Component({
   selector: 'app-user',
@@ -17,7 +18,10 @@ export class UserComponent implements OnInit {
   userName = '';
   adding = false;
 
-  constructor(private userData: UserDataService) { }
+  constructor(
+    private userData: UserDataService,
+    private auth: AuthService
+  ) { }
 
   ngOnInit() {
     this.userData.getUsers().subscribe((users) => {
@@ -69,5 +73,9 @@ export class UserComponent implements OnInit {
       this.userToEdit = user;
       this.userName = user.name;
     }
+  }
+
+  logout() {
+    this.auth.invalidate();
   }
 }
