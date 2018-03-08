@@ -6,7 +6,6 @@ import * as jwt from 'jsonwebtoken';
 import * as passport from 'passport';
 import * as passportJWT from 'passport-jwt';
 
-
 import getConfig from './config/config';
 
 import serverSideRenderer from './ssr';

@@ -7,7 +7,7 @@ const config = {
     auth: {
       token: {
         secret: '--some-secret-here--',
-        expiresIn: '20m'
+        expiresIn: '2 days'
       },
       google: {
         clientID: '623272395666-9t1hpgmm1k609kjvq4s8kf88abuh1jlt.apps.googleusercontent.com',

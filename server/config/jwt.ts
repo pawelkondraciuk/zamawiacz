@@ -1,3 +1,4 @@
+import * as mongoose from 'mongoose';
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import UserModel from '../models/user';
 import getConfig from './config';
@@ -12,9 +13,8 @@ export default function(passport) {
   };
 
   passport.use(new Strategy(opts, (jwt_payload, done) => {
-    console.log(jwt_payload);
     UserModel.findOne({
-      id: jwt_payload.id
+      _id: mongoose.Types.ObjectId(jwt_payload.id)
     }, (err, user) => {
       if (err) {
         return done(err, false);
