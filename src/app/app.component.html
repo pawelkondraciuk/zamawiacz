@@ -6,14 +6,14 @@
     <mat-nav-list>
       <a
         mat-list-item
-        [routerLink]="['active-orders']" routerLinkActive="active"
+        routerLink="orders/active-orders" routerLinkActive="active"
         (click)="sidenav.close()"
       >
         Active orders list
       </a>
       <a
         mat-list-item
-        [routerLink]="['create-order']" routerLinkActive="active"
+        routerLink="orders/create" routerLinkActive="active"
         (click)="sidenav.close()"
       >
         Create order
