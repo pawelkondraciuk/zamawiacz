@@ -1,8 +1,9 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpModule } from '@angular/http';
+import { BrowserModule } from '@angular/platform-browser';
 
+import { GraphQLModule } from './graphql.module';
 import { AppComponent } from './app.component';
+import { UserModule } from './user/user.module';
 
 @NgModule({
   declarations: [
@@ -10,7 +11,8 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'my-app'}),
-    HttpModule,
+    GraphQLModule,
+    UserModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
