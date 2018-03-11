@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="row justify-content-md-center">
+    <mat-card class="col-md-12">
+      <mat-card-title>
+        Active Orders
+      </mat-card-title>
+      <mat-card-content>
+        <mat-table #table [dataSource]="tableData">
+            <ng-container matColumnDef="title">
+              <mat-header-cell *matHeaderCellDef> Order title </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.title}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="orderer">
+              <mat-header-cell *matHeaderCellDef> Orderer </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.orderer}} </mat-cell>
+            </ng-container>
+          <mat-header-row *matHeaderRowDef="columnsHeaders"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: columnsHeaders;"></mat-row>
+        </mat-table>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

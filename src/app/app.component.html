@@ -1,1 +1,30 @@
-<router-outlet></router-outlet>
+<mat-sidenav-container fullscreen>
+  <mat-sidenav
+    #sidenav
+    mode="over"
+  >
+    <mat-nav-list>
+      <a
+        mat-list-item
+        routerLink="orders/active-orders" routerLinkActive="active"
+        (click)="sidenav.close()"
+      >
+        Active orders list
+      </a>
+      <a
+        mat-list-item
+        routerLink="orders/create" routerLinkActive="active"
+        (click)="sidenav.close()"
+      >
+        Create order
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color='primary'>
+      <button mat-button (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>
+      <span>Toolbar</span>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

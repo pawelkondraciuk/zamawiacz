@@ -1,21 +1,28 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { AuthModule } from '@ngx-auth/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { AuthModule } from '@ngx-auth/core';
 import { GraphQLModule } from './graphql.module';
-import { AppComponent } from './app.component';
+
+import { SharedModule } from './shared/shared.module';
+import { MaterialModule } from './material/material.module';
 import { AppRoutingModule } from './app-routing.module';
+
+import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'my-app'}),
-    AuthModule.forRoot(),
+    BrowserAnimationsModule,
     GraphQLModule,
+    AuthModule.forRoot(),
+    SharedModule,
     AppRoutingModule,
   ],
   providers: [],
