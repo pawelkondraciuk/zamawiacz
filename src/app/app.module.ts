@@ -15,6 +15,7 @@ import { LoginComponent } from './login/login.component';
 @NgModule({
   declarations: [
     AppComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'my-app'}),
@@ -23,7 +24,6 @@ import { LoginComponent } from './login/login.component';
     AuthModule.forRoot(),
     SharedModule,
     AppRoutingModule,
-    LoginComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]
