@@ -1,13 +1,16 @@
+<div>
+<button (click)="logout()">Logout</button>
+</div>
+
 <div *ngFor="let user of users">
   {{ user.name }}
   <button (click)="remove(user)">Remove</button>
   <button (click)="edit(user)">Edit</button>
   <span *ngIf="userToRemove === user">Removing</span>
 </div>
-User name: 
-<input type="text" [value]="userName" (input)="userName = $event.target.value"/>
-<button *ngIf="!userToEdit" (click)="add()">Add</button>
 <ng-template [ngIf]="userToEdit">
+  User name: 
+  <input type="text" [value]="userName" (input)="userName = $event.target.value"/>
   <button (click)="edit()">Update</button>
   <button (click)="userToEdit = null">Cancel</button>
 </ng-template>
