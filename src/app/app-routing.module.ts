@@ -22,7 +22,7 @@ const routes: Routes = [
     path: 'user',
     loadChildren: './+user/user.module#UserModule',
     canActivateChild: [AuthGuard]
-  }
+  },
 ];
 
 @NgModule({

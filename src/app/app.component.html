@@ -16,7 +16,21 @@
         routerLink="orders/create" routerLinkActive="active"
         (click)="sidenav.close()"
       >
-        Create order
+        Create new order
+      </a>
+      <a
+        *ngIf="!authService.loggedIn()"
+        mat-list-item
+        (click)="logIn(); sidenav.close()"
+      >
+        Login
+      </a>
+      <a
+        *ngIf="authService.loggedIn()"
+        mat-list-item
+        (click)="logOut(); sidenav.close()"
+      >
+        Logout
       </a>
     </mat-nav-list>
   </mat-sidenav>
