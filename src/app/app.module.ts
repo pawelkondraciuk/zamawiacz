@@ -1,11 +1,16 @@
-import { SharedModule } from './shared/shared.module';
-import { AppRoutingModule } from './app-routing.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { AppComponent } from './app.component';
+import { AuthModule } from '@ngx-auth/core';
+import { GraphQLModule } from './graphql.module';
+
+import { SharedModule } from './shared/shared.module';
 import { MaterialModule } from './material/material.module';
+import { AppRoutingModule } from './app-routing.module';
+
+import { AppComponent } from './app.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -13,9 +18,12 @@ import { MaterialModule } from './material/material.module';
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'my-app'}),
-    AppRoutingModule,
     BrowserAnimationsModule,
+    GraphQLModule,
+    AuthModule.forRoot(),
     SharedModule,
+    AppRoutingModule,
+    LoginComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]
