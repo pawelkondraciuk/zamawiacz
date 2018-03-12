@@ -12,7 +12,6 @@ const config = {
       google: {
         clientID: '623272395666-9t1hpgmm1k609kjvq4s8kf88abuh1jlt.apps.googleusercontent.com',
         clientSecret: '0ZyfYTKZO7Tj0Q6g_vFN5RdZ',
-        callbackURL: 'http://localhost:4200/auth/google/callback'
       }
     }
   },

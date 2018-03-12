@@ -3,9 +3,9 @@ import { NgModule } from '@angular/core';
 import { Apollo, ApolloModule } from 'apollo-angular';
 import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { AuthService } from '@ngx-auth/core';
 import { setContext } from 'apollo-link-context';
 import { onError } from 'apollo-link-error';
+import { UserService } from './shared/services/user.service';
 
 @NgModule({
   exports: [
@@ -15,11 +15,11 @@ import { onError } from 'apollo-link-error';
   ]
 })
 export class GraphQLModule {
-  constructor(apollo: Apollo, httpLink: HttpLink, authService: AuthService) {
+  constructor(apollo: Apollo, httpLink: HttpLink, userService: UserService) {
     const uri = '/graphql';
     const http = httpLink.create({ uri });
     const auth = setContext((_, { headers }) => {
-      const token = authService.token;
+      const token = userService.getToken();
       if (!token) {
         return {};
       } else {
@@ -34,7 +34,7 @@ export class GraphQLModule {
     const error = onError(({ networkError, graphQLErrors }) => {
       const netErr = networkError as HttpErrorResponse;
       if (netErr.status === 401) {
-        authService.invalidate();
+        userService.signOut();
       }
     });
 

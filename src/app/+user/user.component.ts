@@ -1,7 +1,7 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, NgZone } from '@angular/core';
 import { UserDataService } from '../shared/services/user-data.service';
 import { User } from '../shared/models/user';
-import { AuthService } from '@ngx-auth/core';
+import { UserService } from '../shared/services/user.service';
 
 @Component({
   selector: 'app-user',
@@ -20,7 +20,8 @@ export class UserComponent implements OnInit {
 
   constructor(
     private userData: UserDataService,
-    private auth: AuthService
+    private userService: UserService,
+    private ngZone: NgZone,
   ) { }
 
   ngOnInit() {
@@ -76,6 +77,8 @@ export class UserComponent implements OnInit {
   }
 
   logout() {
-    this.auth.invalidate();
+    this.ngZone.run(() => {
+      this.userService.signOut();
+    });
   }
 }

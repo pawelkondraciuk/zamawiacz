@@ -2,17 +2,16 @@ import * as cors from 'cors';
 import * as express from 'express';
 import * as graphqlHTTP from 'express-graphql';
 import * as jwt from 'jsonwebtoken';
+import * as jwtMiddleware from 'express-jwt';
+import * as bodyParser from 'body-parser';
 
-import * as passport from 'passport';
-import * as passportJWT from 'passport-jwt';
+import { OAuth2Client } from 'google-auth-library';
 
 import getConfig from './config/config';
 
 import serverSideRenderer from './ssr';
 import mongoose from './config/mongoose';
 import schema from './graphql';
-import jwtStrategy from './config/jwt';
-import googleStrategy from './config/google';
 
 import UserModel from './models/user';
 
@@ -28,43 +27,50 @@ if (!isDev) {
   serverSideRenderer(app);
 }
 
-jwtStrategy(passport);
-googleStrategy(passport);
-
-app.use(passport.initialize());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use('/graphql',
   cors(),
-  passport.authenticate('jwt', { session: false }),
+  jwtMiddleware({ secret: config.auth.token.secret }),
   graphqlHTTP({
     schema: schema,
     graphiql: isDev
   })
 );
 
-app.get('/auth/google',
-  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
-
-app.get('/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/login', session: false }),
-    function(req, res) {
-      const payload = {
-        id: req.user.id
-      };
-      const token = jwt.sign(payload, config.auth.token.secret, {
+app.route('/auth/google')
+  .post((req, res, next) => {
+  const client = new OAuth2Client(config.auth.google.clientID);
+  const ticket = client.verifyIdToken({
+    idToken: req.body.token,
+    audience: config.auth.google.clientID,
+  });
+  ticket
+    .then(({payload}) => {
+      req.googlePayload = payload;
+      next();
+    })
+    .catch((err) => { console.log(err); res.sendStatus(401); });
+  })
+  .post((req, res, next) => {
+    if (req.googlePayload.aud !== config.auth.google.clientID) {
+      res.sendStatus(401);
+    } else {
+      next();
+    }
+  })
+  .post((req, res) => {
+    const payload = req.googlePayload;
+    UserModel.findOrCreate({ googleId: payload.sub }, { name: payload.name }, function (err, user) {
+      const token = jwt.sign({id: user.id}, config.auth.token.secret, {
         expiresIn: config.auth.token.expiresIn
       });
-
-      res.send(`
-        <script>
-          localStorage.setItem('currentUser', JSON.stringify({token: '${token}'}));
-          if (window.opener) {
-            window.opener.location.href = '/';
-            window.close();
-          } else {
-            window.location.href = '/';
-          }
-        </script>
-      `);
+      res.json({
+        user, token
+      });
+    });
   });
 
 app.listen(PORT, () => {
