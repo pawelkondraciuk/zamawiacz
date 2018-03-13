@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { UserService } from '../shared/services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -6,13 +9,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
-  constructor() { }
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private ngZone: NgZone
+  ) {}
 
   ngOnInit() {
   }
 
-  login() {
-    window.open('/auth/google', 'myWindow', 'width=450,height=600');
+  onSuccess(token: string) {
+    this.userService.signInUsingGoogle(token)
+      .subscribe((response) => {
+        this.ngZone.run(() => {
+          this.router.navigateByUrl('/');
+        });
+      });
   }
 }
