@@ -1,7 +1,7 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { UserService } from '../shared/services/user.service';
+import { AuthService } from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +10,7 @@ import { UserService } from '../shared/services/user.service';
 })
 export class LoginComponent implements OnInit {
   constructor(
-    private userService: UserService,
+    private authService: AuthService,
     private router: Router,
     private ngZone: NgZone
   ) {}
@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSuccess(token: string) {
-    this.userService.signInUsingGoogle(token)
+    this.authService.signInUsingGoogle(token)
       .subscribe((response) => {
         this.ngZone.run(() => {
           this.router.navigateByUrl('/');

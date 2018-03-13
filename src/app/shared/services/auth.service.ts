@@ -19,7 +19,7 @@ import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 
 @Injectable()
-export class UserService {
+export class AuthService {
   public static SESSION_STORAGE_KEY = 'accessToken';
   private user: { user: any; token: string };
 
@@ -54,7 +54,7 @@ export class UserService {
         this.user = null;
         localStorage.removeItem('currentUser');
         auth.signOut();
-        this.router.navigateByUrl('/login');
+        this.router.navigateByUrl('/');
       });
   }
 }

@@ -12,7 +12,7 @@ const routes: Routes = [
     redirectTo: 'orders'
   }, {
     path: 'orders',
-    loadChildren: './orders/orders.module#OrdersModule',
+    loadChildren: './+orders/orders.module#OrdersModule',
 
   }, {
     path: 'login',

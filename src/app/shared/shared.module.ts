@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import { MaterialModule } from '../material/material.module';
+
+import { GoogleButtonComponent } from './components';
 
 @NgModule({
   imports: [
@@ -9,7 +12,10 @@ import { MaterialModule } from '../material/material.module';
   ],
   exports: [
     MaterialModule,
+    GoogleButtonComponent,
   ],
-  declarations: []
+  declarations: [
+    GoogleButtonComponent,
+  ]
 })
 export class SharedModule { }
