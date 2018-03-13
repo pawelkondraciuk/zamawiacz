@@ -5,17 +5,21 @@ import { MaterialModule } from '../material/material.module';
 
 import { GoogleButtonComponent } from './components';
 
+import { GoogleLoginButtonDirective } from './directives';
+
 @NgModule({
   imports: [
     CommonModule,
     MaterialModule,
   ],
+  declarations: [
+    GoogleButtonComponent,
+    GoogleLoginButtonDirective,
+  ],
   exports: [
     MaterialModule,
     GoogleButtonComponent,
-  ],
-  declarations: [
-    GoogleButtonComponent,
+    GoogleLoginButtonDirective,
   ]
 })
 export class SharedModule { }

@@ -1,0 +1,10 @@
+<button
+  *ngIf="!userLoggedIn"
+  appGoogleLoginButton
+  (success)="onLoginSuccess($event)"
+>ZALOGUJ
+</button>
+<div *ngIf="userLoggedIn">
+  <span>Logged as: {{ username }}</span>
+  <button>WYLOGUJ SIE ZIOMEK</button>
+</div>

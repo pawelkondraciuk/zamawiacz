@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
     this.authService.signInUsingGoogle(token)
       .subscribe((response) => {
         this.ngZone.run(() => {
-          this.router.navigateByUrl('/');
+          this.router.navigateByUrl('/user');
         });
       });
   }

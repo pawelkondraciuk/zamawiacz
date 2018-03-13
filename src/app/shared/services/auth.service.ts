@@ -17,10 +17,13 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/observable/fromPromise';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class AuthService {
   public static SESSION_STORAGE_KEY = 'accessToken';
+
+  private isLoggedIn$ = new BehaviorSubject<boolean>(false);
   private user: { user: any; token: string };
 
   constructor(
@@ -31,8 +34,16 @@ export class AuthService {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
   }
 
+  public getGoogleAuth(): Observable<gapi.auth2.GoogleAuth> {
+    return this.googleAuth.getAuth();
+  }
+
   public isLoggedIn(): boolean {
     return this.user && !!this.user.token;
+  }
+
+  public getLoginSubject(): BehaviorSubject<boolean> {
+    return this.isLoggedIn$;
   }
 
   public getToken(): string {
@@ -43,16 +54,18 @@ export class AuthService {
     return this.httpClient.post('/auth/google', { token })
       .do((response: any) => {
         this.user = response;
+        this.isLoggedIn$.next(true);
         localStorage.setItem('currentUser', JSON.stringify(this.user));
       })
       .map((response) => response['user']);
   }
 
   public signOut() {
-    this.googleAuth.getAuth()
+    this.getGoogleAuth()
       .subscribe(auth => {
         this.user = null;
         localStorage.removeItem('currentUser');
+        this.isLoggedIn$.next(false);
         auth.signOut();
         this.router.navigateByUrl('/');
       });

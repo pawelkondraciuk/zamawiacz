@@ -1,3 +1,4 @@
+import { AuthService } from './../../services/auth.service';
 import {
   ChangeDetectorRef,
   Component,
@@ -7,6 +8,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+
 import { GoogleAuthService } from 'ng-gapi';
 
 @Component({
@@ -20,11 +22,12 @@ export class GoogleButtonComponent implements OnInit {
 
   constructor(
     private googleAuthService: GoogleAuthService,
-    private cdRef: ChangeDetectorRef
+    private authService: AuthService,
+    private cdRef: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
-    this.googleAuthService.getAuth().subscribe((auth) => {
+    this.authService.getGoogleAuth().subscribe((auth) => {
       auth.attachClickHandler(
         this.signInButton.nativeElement,
         { },

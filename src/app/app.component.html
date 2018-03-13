@@ -23,7 +23,9 @@
   <mat-sidenav-content>
     <mat-toolbar color='primary'>
       <button mat-button (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>
-      <span>Toolbar</span>
+      <span>Zamawiacz</span>
+      <span class="toolbar-placeholder"></span>
+      <app-user-controls></app-user-controls>
     </mat-toolbar>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
