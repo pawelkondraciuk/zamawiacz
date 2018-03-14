@@ -33,11 +33,22 @@ app.use(bodyParser.urlencoded({
 }));
 app.use('/graphql',
   cors(),
-  jwtMiddleware({ secret: config.auth.token.secret }),
-  graphqlHTTP({
+  jwtMiddleware({
+    secret: config.auth.token.secret,
+    getToken: function fromHeaderOrQuerystring (req) {
+      if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+          return req.headers.authorization.split(' ')[1];
+      } else if (req.query && req.query.token) {
+        return req.query.token;
+      }
+      return null;
+    }
+  }),
+  graphqlHTTP(request => ({
     schema: schema,
-    graphiql: isDev
-  })
+    graphiql: isDev,
+    context: request.user
+  }))
 );
 
 app.route('/auth/google')
