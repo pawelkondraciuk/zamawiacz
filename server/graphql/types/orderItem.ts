@@ -1,10 +1,10 @@
-import { GraphQLID, GraphQLInputObjectType, GraphQLObjectType, GraphQLString, GraphQLFloat, GraphQLList } from 'graphql';
+import { GraphQLID, GraphQLNonNull, GraphQLInputObjectType, GraphQLObjectType, GraphQLString, GraphQLFloat, GraphQLList } from 'graphql';
 import * as GraphQLDate from 'graphql-date';
 import { OrderType } from './order';
 
 const OrderItemType = new GraphQLObjectType({
   name: 'OrderItemType',
-  description: 'User type definition',
+  description: 'Order item type definition',
   fields: () => ({
     id: {
       type: GraphQLID,
@@ -17,13 +17,24 @@ const OrderItemType = new GraphQLObjectType({
     },
     price: {
       type: GraphQLFloat
-    },
-    order: {
-      type: OrderType,
     }
+  })
+});
+
+const OrderItemInputType = new GraphQLInputObjectType({
+  name: 'OrderItemInputType',
+  description: 'Order item input type definition',
+  fields: () => ({
+    name: {
+      type: new GraphQLNonNull(GraphQLString)
+    },
+    price: {
+      type: GraphQLFloat
+    },
   })
 });
 
 export {
   OrderItemType,
+  OrderItemInputType,
 };

@@ -9,7 +9,7 @@ export default {
     type: new GraphQLList(OrderType),
     description: 'Get order list',
     resolve: () => {
-      const orders = OrderModel.find().populate('user').exec();
+      const orders = OrderModel.find().populate('user').populate('orderItems').exec();
       if (!orders) {
         throw new Error('Error');
       }

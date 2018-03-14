@@ -5,7 +5,6 @@ const orderItemSchema = new mongoose.Schema({
   name: { type: Schema.Types.String, required: true },
   createdAt: Schema.Types.Date,
   price: { type: Schema.Types.Number, require: true },
-  order: { type: Schema.Types.ObjectId, ref: 'Order' }
 });
 
 const OrderItem = mongoose.model('OrderItem', orderItemSchema);
