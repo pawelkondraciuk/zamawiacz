@@ -15,7 +15,7 @@ import UserModel from './models/user';
 const app = express();
 const db = mongoose();
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 const ENV = process.env.NODE_ENV || 'development';
 const config = getConfig(ENV);
 const isDev = ENV === 'development';
