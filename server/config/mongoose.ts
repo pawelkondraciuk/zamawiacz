@@ -1,8 +1,8 @@
 import * as mongoose from 'mongoose';
 import getConfig from './config';
 
-const env = process.env.NODE_ENV || 'development';
-const config = getConfig(env);
+const ENV = process.env.NODE_ENV || 'development';
+const config = getConfig(ENV);
 
 function setupDatabase() {
   mongoose.Promise = global.Promise;
