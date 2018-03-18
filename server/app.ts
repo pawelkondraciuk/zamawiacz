@@ -1,8 +1,5 @@
-import * as cors from 'cors';
 import * as express from 'express';
-import * as graphqlHTTP from 'express-graphql';
 import * as jwt from 'jsonwebtoken';
-import * as jwtMiddleware from 'express-jwt';
 import * as bodyParser from 'body-parser';
 
 import { OAuth2Client } from 'google-auth-library';
@@ -11,7 +8,7 @@ import getConfig from './config/config';
 
 import serverSideRenderer from './ssr';
 import mongoose from './config/mongoose';
-import schema from './graphql';
+import graphql from './config/graphql';
 
 import UserModel from './models/user';
 
@@ -31,14 +28,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
-app.use('/graphql',
-  cors(),
-  jwtMiddleware({ secret: config.auth.token.secret }),
-  graphqlHTTP({
-    schema: schema,
-    graphiql: isDev
-  })
-);
+
+graphql(app);
 
 app.route('/auth/google')
   .post((req, res, next) => {
