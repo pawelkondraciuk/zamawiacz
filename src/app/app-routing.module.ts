@@ -15,9 +15,6 @@ const routes: Routes = [
     loadChildren: './+orders/orders.module#OrdersModule',
 
   }, {
-    path: 'login',
-    component: LoginComponent
-  }, {
     path: 'user',
     loadChildren: './+user/user.module#UserModule',
     canActivateChild: [AuthGuard]

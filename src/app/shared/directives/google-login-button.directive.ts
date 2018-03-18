@@ -4,6 +4,7 @@ import {
   ElementRef,
   EventEmitter,
   Output,
+  OnInit,
 } from '@angular/core';
 
 import { AuthService } from './../services/auth.service';
@@ -11,14 +12,20 @@ import { AuthService } from './../services/auth.service';
 @Directive({
   selector: '[appGoogleLoginButton]'
 })
-export class GoogleLoginButtonDirective {
+export class GoogleLoginButtonDirective implements OnInit {
   @Output() success = new EventEmitter();
 
   constructor(
     private elementRef: ElementRef,
     private changeDetectionRef: ChangeDetectorRef,
     private authService: AuthService
-  ) {
+  ) {}
+
+  private onSuccess(googleUser: gapi.auth2.GoogleUser) {
+    this.success.emit(googleUser.getAuthResponse().id_token);
+  }
+
+  ngOnInit() {
     this.authService.getGoogleAuth().subscribe((auth) => {
       auth.attachClickHandler(
         this.elementRef.nativeElement,
@@ -30,12 +37,8 @@ export class GoogleLoginButtonDirective {
     });
   }
 
-  private onSuccess(googleUser: gapi.auth2.GoogleUser) {
-    this.success.emit(googleUser.getAuthResponse().id_token);
-  }
-
   private onFailure() {
-
+    throw new Error('Authentication failure');
   }
 
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 // import { catchError } from 'rxjs/operators';
 import {
@@ -30,6 +30,7 @@ export class AuthService {
     private httpClient: HttpClient,
     private googleAuth: GoogleAuthService,
     private router: Router,
+    private ngZone: NgZone,
   ) {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
   }
@@ -56,18 +57,27 @@ export class AuthService {
         this.user = response;
         this.isLoggedIn$.next(true);
         localStorage.setItem('currentUser', JSON.stringify(this.user));
+        this.navigateWorkaroundForAngularIssue('/orders');
       })
       .map((response) => response['user']);
   }
 
   public signOut() {
-    this.getGoogleAuth()
-      .subscribe(auth => {
+    return this.getGoogleAuth()
+      .do(auth => {
         this.user = null;
         localStorage.removeItem('currentUser');
         this.isLoggedIn$.next(false);
         auth.signOut();
-        this.router.navigateByUrl('/');
+        this.navigateWorkaroundForAngularIssue('/orders/create');
       });
+  }
+
+  // workaround for Issue #18254
+  // https://github.com/angular/angular/issues/18254
+  private navigateWorkaroundForAngularIssue(route: string): void {
+    this.ngZone.run(() => {
+      this.router.navigateByUrl(route);
+    });
   }
 }

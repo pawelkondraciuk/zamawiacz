@@ -38,6 +38,13 @@ export class UserControlsComponent implements OnInit, OnDestroy {
       });
   }
 
+  signOut() {
+    this.authService.signOut()
+      .subscribe((auth) => {
+        this.cdRef.detectChanges();
+      });
+  }
+
   ngOnDestroy() {
     this.isLoggedSubscription$.unsubscribe();
   }
