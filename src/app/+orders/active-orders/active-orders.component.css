@@ -1,3 +1,12 @@
 .mat-row:hover {
   background-color: #EEEEEE;
 }
+
+.active-orders__options-icon {
+  color: gray;
+  cursor: pointer;
+}
+
+.active-orders__options-icon:hover {
+  color: black;
+}

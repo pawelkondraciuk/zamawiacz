@@ -8,6 +8,9 @@ import {
   MatTableModule,
   MatCardModule,
   MatListModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatRadioModule,
 } from '@angular/material';
 
 @NgModule({
@@ -22,6 +25,9 @@ import {
     MatTableModule,
     MatCardModule,
     MatListModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatRadioModule,
   ],
   declarations: []
 })

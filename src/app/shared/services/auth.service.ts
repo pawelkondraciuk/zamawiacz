@@ -23,8 +23,10 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 export class AuthService {
   public static SESSION_STORAGE_KEY = 'accessToken';
 
-  private isLoggedIn$ = new BehaviorSubject<boolean>(false);
+  private _isLoggedIn = false;
   private user: { user: any; token: string };
+
+  public isLoggedIn$ = new BehaviorSubject(false);
 
   constructor(
     private httpClient: HttpClient,
@@ -43,7 +45,8 @@ export class AuthService {
     return this.user && !!this.user.token;
   }
 
-  public getLoginSubject(): BehaviorSubject<boolean> {
+  // doesnt work ;<
+  public getLoginSubject(): Observable<boolean> {
     return this.isLoggedIn$;
   }
 

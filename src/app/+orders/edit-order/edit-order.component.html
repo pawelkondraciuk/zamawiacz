@@ -1,0 +1,45 @@
+<div class="container">
+    <div class="row justify-content-md-center">
+      <mat-card class="col-md-12">
+        <mat-card-title>
+          Edit order
+        </mat-card-title>
+        <mat-card-content>
+          <div class="row justify-content-md-left">
+            <div class="col-md-6">
+              <form class="form" (ngSubmit)="onFormSubmit(editOrderForm.value)" [formGroup]="editOrderForm">
+                <mat-form-field
+                  class="d-block col-md-12">
+                  <input matInput formControlName="name" placeholder="Order name" required>
+                  <mat-error *ngIf="editOrderForm.get('name').hasError('required')">This field is required!</mat-error>
+                  <mat-error *ngIf="editOrderForm.get('name').hasError('minlength')">Min-length: 3 chars</mat-error>
+                </mat-form-field>
+                <mat-form-field class="d-block col-md-4">
+                  <input matInput formControlName="deliveryCost" placeholder="Delivery cost">
+                  <mat-error *ngIf="editOrderForm.get('deliveryCost').hasError('required')">This field is required!</mat-error>            
+                  <mat-error *ngIf="editOrderForm.get('deliveryCost').hasError('pattern')">This field is numeric only!</mat-error>            
+                </mat-form-field>
+                <div class="d-block col-md-12" >
+                  <label>Payment method:</label>
+                  <mat-radio-group formControlName="paymentMethod">
+                    <mat-radio-button value="cash">Cash</mat-radio-button>
+                    <mat-radio-button value="transfer">Transfer</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+                <div class="d-block col-md-12">
+                  <button
+                    mat-raised-button
+                    class="float-md-right"
+                    color="accent"
+                    [disabled]="editOrderForm.invalid"
+                  >
+                    Save changes
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>

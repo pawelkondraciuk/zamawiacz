@@ -1,4 +1,8 @@
+import { Observable } from 'rxjs/Observable';
 import { Component, OnInit } from '@angular/core';
+
+import { OrdersService } from './../../shared/services/orders.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-active-orders',
@@ -6,18 +10,34 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./active-orders.component.css']
 })
 export class ActiveOrdersComponent implements OnInit {
-  public columnsHeaders = ['title', 'orderer'];
-  public tableData = [
-    { title: 'Tytuł', orderer: 'Karol' },
-    { title: 'Tytuł1', orderer: 'Paweł' },
-    { title: 'Tytuł22', orderer: 'Viking' },
-    { title: 'Tytuł3', orderer: 'Ogórek' },
-    { title: 'Tytuł4', orderer: 'Lemoniada' },
-  ];
+  public columnsHeaders = ['title', 'orderer', 'options'];
+  public tableData: Observable<any>;
 
-  constructor() { }
+  constructor(
+    private ordersService: OrdersService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
+    this.getActiveOrders();
+  }
+
+  private getActiveOrders() {
+    this.ordersService.getOrders()
+      .subscribe((orders) => {
+        const data = orders.map((order) => {
+          return {
+            id: order.id,
+            title: order.name,
+            orderer: order.user.name,
+          };
+        });
+        this.tableData = Observable.of(data);
+      });
+  }
+
+  public editClickHandler(id: string) {
+    this.router.navigateByUrl(`orders/edit/${id}`);
   }
 
 }

@@ -35,7 +35,6 @@ import { UserControlsComponent } from './components';
   ],
   providers: [
     AuthGuard,
-    AuthService,
   ],
   bootstrap: [AppComponent]
 })

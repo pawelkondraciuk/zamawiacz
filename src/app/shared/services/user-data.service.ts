@@ -12,7 +12,7 @@ export class UserDataService {
   constructor(private apollo: Apollo) { }
 
   getUsers() {
-    return this.apollo.watchQuery<UsersQuery>({ query: Query.Users })
+    return this.apollo.watchQuery<UsersQuery>({ query: Query.Me })
       .valueChanges
       .map((result) => result.data.users);
   }

@@ -25,7 +25,7 @@ export class UserControlsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.isLoggedSubscription$ = this.authService.getLoginSubject()
+    this.isLoggedSubscription$ = this.authService.isLoggedIn$
       .subscribe(isLogged => this.userLoggedIn = isLogged);
   }
 

@@ -8,3 +8,12 @@ export const Users = gql`
     }
   }
 `;
+
+export const Me = gql`
+  query {
+    me {
+      id
+      name
+    }
+  }`;
+
