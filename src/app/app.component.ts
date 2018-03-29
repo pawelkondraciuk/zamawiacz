@@ -13,12 +13,6 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const token = JSON.parse(localStorage.getItem('currentUser')) ? JSON.parse(localStorage.getItem('currentUser')).token : null;
-
-    if (token) {
-      // this.authService.signInUsingGoogle(token)
-      //   .subscribe();
-      this.authService.isLoggedIn$.next(true);
-    }
+    this.authService.updateCurrentUserData();
   }
 }

@@ -1,12 +1,13 @@
 import { Observable } from 'rxjs/Observable';
 import { OrderInputData, Order } from './../models/order';
-import { AllOrders } from './../graphql/queries/orders';
+import { AllOrders, OrderById } from './../graphql/queries/orders';
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 
 import * as Query from '../graphql/queries/orders';
 
 import gql from 'graphql-tag';
+import { Router } from '@angular/router';
 
 
 @Injectable()
@@ -14,7 +15,10 @@ export class OrdersService {
 
   private cache: Map<string, Order>;
 
-  constructor(private apollo: Apollo) {}
+  constructor(
+    private apollo: Apollo,
+    private router: Router
+  ) {}
 
   public createOrder(orderData: OrderInputData) {
     return this.apollo.mutate<any>({
@@ -32,19 +36,25 @@ export class OrdersService {
       mutation: Query.OrderUpdate,
       variables: {
         id: orderData.id,
-        name: orderData.name,
-        deliveryCost: orderData.deliveryCost,
-        paymentMethod: orderData.paymentMethod,
+        order: {
+          name: orderData.name,
+          deliveryCost: orderData.deliveryCost,
+          paymentMethod: orderData.paymentMethod,
+        }
       }
-    });
+    })
+    .do(() => this.router.navigateByUrl('/orders'));
   }
 
-  public getById(id: string): Observable<Order> {
-    if (this.cache.has(id)) {
-      return Observable.of(this.cache.get(id));
-    } else {
-      // get order by id
-    }
+  public getById(orderId: string): any {
+    return this.apollo.watchQuery<any>({
+      query: Query.OrderById,
+      variables: {
+        id: orderId,
+      }
+    })
+    .valueChanges
+    .switchMap((res) => Observable.of(res.data.order));
   }
 
   public getOrders() {

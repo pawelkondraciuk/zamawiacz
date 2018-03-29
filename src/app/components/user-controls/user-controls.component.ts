@@ -26,7 +26,10 @@ export class UserControlsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isLoggedSubscription$ = this.authService.isLoggedIn$
-      .subscribe(isLogged => this.userLoggedIn = isLogged);
+      .subscribe((isLogged: boolean) => {
+        this.userLoggedIn = isLogged;
+        this.username = isLogged ? this.authService.getUserData().name : null;
+      });
   }
 
   onLoginSuccess(token: string) {
@@ -39,10 +42,7 @@ export class UserControlsComponent implements OnInit, OnDestroy {
   }
 
   signOut() {
-    this.authService.signOut()
-      .subscribe((auth) => {
-        this.cdRef.detectChanges();
-      });
+    this.authService.signOut();
   }
 
   ngOnDestroy() {

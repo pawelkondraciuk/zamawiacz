@@ -12,12 +12,12 @@ const routes: Routes = [
     redirectTo: 'orders'
   }, {
     path: 'orders',
+    canActivateChild: [AuthGuard],
     loadChildren: './+orders/orders.module#OrdersModule',
 
   }, {
     path: 'user',
     loadChildren: './+user/user.module#UserModule',
-    canActivateChild: [AuthGuard]
   }
 ];
 

@@ -1,3 +1,5 @@
+import { User } from './../models/user';
+import { UserDataService } from './user-data.service';
 import { Injectable, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 // import { catchError } from 'rxjs/operators';
@@ -24,34 +26,61 @@ export class AuthService {
   public static SESSION_STORAGE_KEY = 'accessToken';
 
   private _isLoggedIn = false;
-  private user: { user: any; token: string };
+  private user: User;
+  private authToken: string;
 
   public isLoggedIn$ = new BehaviorSubject(false);
 
   constructor(
     private httpClient: HttpClient,
+    private userDataService: UserDataService,
     private googleAuth: GoogleAuthService,
     private router: Router,
     private ngZone: NgZone,
   ) {
-    this.user = JSON.parse(localStorage.getItem('currentUser'));
+    if (JSON.parse(localStorage.getItem('currentUser'))) {
+      const { user, token } = JSON.parse(localStorage.getItem('currentUser'));
+      this.user = user || null;
+      this.authToken = token || null;
+      this.isLoggedIn = this.user ? true : false;
+    }
   }
 
   public getGoogleAuth(): Observable<gapi.auth2.GoogleAuth> {
     return this.googleAuth.getAuth();
   }
 
-  public isLoggedIn(): boolean {
-    return this.user && !!this.user.token;
+  get isLoggedIn(): boolean {
+    return this.user && !!this.authToken;
+  }
+
+  set isLoggedIn(value: boolean) {
+    this._isLoggedIn = true;
+    this.isLoggedIn$.next(true);
   }
 
   // doesnt work ;<
   public getLoginSubject(): Observable<boolean> {
-    return this.isLoggedIn$;
+    return this.isLoggedIn$.asObservable();
   }
 
   public getToken(): string {
-    return this.user && this.user.token;
+    return this.user && this.authToken;
+  }
+
+  public getUserData() {
+    return this.user;
+  }
+
+  public updateCurrentUserData() {
+    if (!this.isLoggedIn) {
+      return;
+    }
+
+    this.userDataService.getCurrentUserData()
+      .subscribe((userData: User) => {
+        this.user = userData;
+      });
   }
 
   public signInUsingGoogle(token: string) {
@@ -72,8 +101,8 @@ export class AuthService {
         localStorage.removeItem('currentUser');
         this.isLoggedIn$.next(false);
         auth.signOut();
-        this.navigateWorkaroundForAngularIssue('/orders/create');
-      });
+        this.navigateWorkaroundForAngularIssue('/user');
+      }).subscribe();
   }
 
   // workaround for Issue #18254

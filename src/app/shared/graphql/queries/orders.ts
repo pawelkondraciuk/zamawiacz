@@ -21,6 +21,17 @@ export const AllOrders = gql`
   }
 `;
 
+export const OrderById = gql`
+  query OrderById($id: ID) {
+    order(id: $id) {
+      id
+      name
+      deliveryCost
+      paymentMethod
+    }
+  }
+`;
+
 export const OrderCreate = gql`
   mutation OrderCreate (
     $name: String!,
@@ -55,6 +66,17 @@ export const OrderUpdate = gql`
     updateOrder (
       id: $id,
       order: $order
-    )
+    ) {
+      id
+      name
+      createdAt
+      deliveryCost
+      paymentMethod
+      status
+      user {
+        id
+        name
+      }
+    }
   }
 `;

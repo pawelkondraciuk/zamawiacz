@@ -5,3 +5,6 @@ export interface User {
 export interface UsersQuery {
   users: User[];
 }
+ export interface MeQuery {
+   me: User;
+ }

@@ -34,11 +34,11 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
   }
 
   private handleAuth(url: string): boolean {
-    if (this.authService.isLoggedIn()) {
+    if (this.authService.isLoggedIn) {
       return true;
     }
 
-    this.router.navigateByUrl('/login');
+    this.router.navigateByUrl('/user');
 
     return false;
   }

@@ -1,3 +1,4 @@
+import { UserDataService } from './services/user-data.service';
 import { AuthService } from './services/auth.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -31,6 +32,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
   ],
   providers: [
     AuthService,
+    UserDataService,
   ]
 })
 export class SharedModule { }

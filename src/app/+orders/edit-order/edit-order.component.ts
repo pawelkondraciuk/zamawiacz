@@ -39,10 +39,11 @@ export class EditOrderComponent implements OnInit {
   ngOnInit() {
     const orderId = this.activatedRoute.snapshot.params.id;
     if (orderId) {
-      this.ordersService.getById(this.activatedRoute.snapshot.params.id)
-        .subscribe((order: Order) => {
-          this.currentOrder = order;
-          this.populateOrderForm(order);
+      this.ordersService.getOrders()
+        .subscribe((orders: Order[]) => {
+          const currentOrder = orders.find((order: Order) => order.id === orderId);
+          this.currentOrder = currentOrder;
+          this.populateOrderForm(currentOrder);
         });
     } else {
       throw new Error('No order ID in url param');

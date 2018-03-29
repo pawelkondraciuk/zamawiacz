@@ -23,6 +23,7 @@ const updateOrder = {
       { $set: order },
       { new: true }
     )
+    .populate('user')
     .catch(err => new Error(err));
   }
 };

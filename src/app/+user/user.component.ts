@@ -8,7 +8,7 @@ import { AuthService } from '../shared/services/auth.service';
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css']
 })
-export class UserComponent implements OnInit {
+export class UserComponent {
 
   users: User[];
 
@@ -23,12 +23,6 @@ export class UserComponent implements OnInit {
     private authService: AuthService,
     private ngZone: NgZone,
   ) { }
-
-  ngOnInit() {
-    this.userData.getUsers().subscribe((users) => {
-      this.users = users;
-    });
-  }
 
   remove(user: User) {
     if (this.userToRemove) {
