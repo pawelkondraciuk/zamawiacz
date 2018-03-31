@@ -21,6 +21,14 @@ export const AllOrders = gql`
   }
 `;
 
+export const OrderRemove = gql`
+  mutation OrderRemove($id: String!) {
+    removeOrder(id: $id) {
+      id
+    }
+  }
+`;
+
 export const OrderById = gql`
   query OrderById($id: ID) {
     order(id: $id) {

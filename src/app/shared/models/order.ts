@@ -1,17 +1,17 @@
-export interface OrderInputData {
-  name: String;
-  deliveryCost: Number;
-  paymentMethod: String;
+export interface NewOrderInputData {
+  name: string;
+  deliveryCost: number;
+  paymentMethod: string;
 }
 
 export interface Order {
-  completedAt: string;
-  createdAt: string;
-  deliveryCost: number;
   id: string;
   name: string;
-  orderItems: any[];
-  paymentMethod: string;
-  status: string;
-  user: any;
+  completedAt?: string;
+  createdAt?: string;
+  deliveryCost?: number;
+  orderItems?: any[];
+  paymentMethod?: string;
+  status?: string;
+  user?: any;
 }

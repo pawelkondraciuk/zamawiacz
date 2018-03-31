@@ -1,8 +1,10 @@
-import { Observable } from 'rxjs/Observable';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { Observable } from 'rxjs/Observable';
 
 import { OrdersService } from './../../shared/services/orders.service';
-import { Router } from '@angular/router';
+import { Order } from './../../shared/models/order';
 
 @Component({
   selector: 'app-active-orders',
@@ -10,8 +12,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./active-orders.component.css']
 })
 export class ActiveOrdersComponent implements OnInit {
-  public columnsHeaders = ['title', 'orderer', 'options'];
-  public tableData: Observable<any>;
+  public columnsHeaders = ['title', 'orderer', 'deliveryCost', 'paymentMethod', 'options'];
+  public tableData: Observable<Order[]>;
 
   constructor(
     private ordersService: OrdersService,
@@ -23,17 +25,23 @@ export class ActiveOrdersComponent implements OnInit {
   }
 
   private getActiveOrders() {
-    this.ordersService.getOrders()
-      .subscribe((orders) => {
-        const data = orders.map((order) => {
+    this.tableData = this.ordersService.getOrders()
+      .map((orders) => {
+        return orders.map((order) => {
           return {
             id: order.id,
             title: order.name,
+            deliveryCost: order.deliveryCost,
+            paymentMethod: order.paymentMethod,
             orderer: order.user.name,
           };
         });
-        this.tableData = Observable.of(data);
       });
+  }
+
+  public removeClickHandler(id: string) {
+    this.ordersService.removeOrder(id)
+      .subscribe(() => this.router.navigateByUrl('/orders'));
   }
 
   public editClickHandler(id: string) {

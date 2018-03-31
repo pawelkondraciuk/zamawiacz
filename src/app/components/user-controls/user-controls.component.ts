@@ -5,8 +5,11 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 
-import { AuthService } from './../../shared/services/auth.service';
 import { Subscription } from 'apollo-client/util/Observable';
+
+import { AuthService } from './../../shared/services/auth.service';
+import { LoginUserData } from './../../shared/models/user';
+
 
 @Component({
   selector: 'app-user-controls',
@@ -34,9 +37,8 @@ export class UserControlsComponent implements OnInit, OnDestroy {
 
   onLoginSuccess(token: string) {
     this.authService.signInUsingGoogle(token)
-      .subscribe(data => {
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        this.username = currentUser.user.name;
+      .subscribe((data: LoginUserData) => {
+        this.username = data.name;
         this.cdRef.detectChanges();
       });
   }

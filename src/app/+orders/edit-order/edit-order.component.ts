@@ -1,8 +1,9 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import { Order } from './../../shared/models/order';
 import { OrdersService } from './../../shared/services/orders.service';
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-edit-order',
@@ -18,6 +19,7 @@ export class EditOrderComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private ordersService: OrdersService,
     private formBuilder: FormBuilder,
+    private router: Router,
   ) {
     this.editOrderForm = this.formBuilder.group({
       name: [null, [
@@ -62,7 +64,7 @@ export class EditOrderComponent implements OnInit {
     const newOrderData = Object.assign({}, this.currentOrder, formData);
     this.ordersService.updateOrder(newOrderData)
       .subscribe((data) => {
-        console.log(data);
+        this.router.navigateByUrl('/orders');
       });
   }
 }

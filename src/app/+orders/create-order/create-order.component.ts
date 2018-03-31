@@ -1,17 +1,25 @@
-import { OrderInputData } from './../../shared/models/order';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { Component } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl
+} from '@angular/forms';
+import { Router } from '@angular/router';
+
 import { OrdersService } from '../../shared/services/orders.service';
+import { NewOrderInputData } from './../../shared/models/order';
 
 @Component({
   selector: 'app-create-order',
   templateUrl: './create-order.component.html',
   styleUrls: ['./create-order.component.css']
 })
-export class CreateOrderComponent implements OnInit {
+export class CreateOrderComponent {
   private createOrderForm: FormGroup;
 
   constructor(
+    private router: Router,
     private formBuilder: FormBuilder,
     private ordersService: OrdersService,
   ) {
@@ -32,17 +40,14 @@ export class CreateOrderComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-  }
-
-  public onFormSubmit(newOrderData: OrderInputData) {
+  public onFormSubmit(newOrderData: NewOrderInputData) {
     this.createOrder(newOrderData);
   }
 
-  public createOrder(data: OrderInputData) {
+  public createOrder(data: NewOrderInputData) {
     this.ordersService.createOrder(data)
       .subscribe((res) => {
-        console.log(res);
+        this.router.navigateByUrl('/orders');
       });
   }
 

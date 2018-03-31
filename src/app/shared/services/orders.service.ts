@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs/Observable';
-import { OrderInputData, Order } from './../models/order';
+import { NewOrderInputData, Order } from './../models/order';
 import { AllOrders, OrderById } from './../graphql/queries/orders';
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
@@ -7,8 +7,6 @@ import { Apollo } from 'apollo-angular';
 import * as Query from '../graphql/queries/orders';
 
 import gql from 'graphql-tag';
-import { Router } from '@angular/router';
-
 
 @Injectable()
 export class OrdersService {
@@ -17,17 +15,31 @@ export class OrdersService {
 
   constructor(
     private apollo: Apollo,
-    private router: Router
   ) {}
 
-  public createOrder(orderData: OrderInputData) {
+  public createOrder(orderData: NewOrderInputData) {
     return this.apollo.mutate<any>({
       mutation: Query.OrderCreate,
       variables: {
         name: orderData.name,
         deliveryCost: orderData.deliveryCost,
         paymentMethod: orderData.paymentMethod,
-      }
+      },
+      refetchQueries: [{
+        query: Query.AllOrders
+      }]
+    });
+  }
+
+  public removeOrder(orderId: string) {
+    return this.apollo.mutate<any>({
+      mutation: Query.OrderRemove,
+      variables: {
+        id: orderId,
+      },
+      refetchQueries: [{
+        query: Query.AllOrders
+      }]
     });
   }
 
@@ -42,8 +54,7 @@ export class OrdersService {
           paymentMethod: orderData.paymentMethod,
         }
       }
-    })
-    .do(() => this.router.navigateByUrl('/orders'));
+    });
   }
 
   public getById(orderId: string): any {

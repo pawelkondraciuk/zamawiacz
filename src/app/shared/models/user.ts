@@ -8,3 +8,9 @@ export interface UsersQuery {
  export interface MeQuery {
    me: User;
  }
+
+ export interface LoginUserData {
+  name: string;
+  googleId: string;
+  _id: string;
+}
