@@ -2,23 +2,25 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GraphQLModule } from './graphql.module';
+import { GoogleApiModule, NG_GAPI_CONFIG } from 'ng-gapi';
+import { AppRoutingModule } from './app-routing.module';
 
 import { SharedModule } from './shared/shared.module';
 import { MaterialModule } from './material/material.module';
-import { AppRoutingModule } from './app-routing.module';
+
+import { AuthGuard } from './shared/guards/auth.guard';
+
+import { AuthService } from './shared/services/auth.service';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-import { UserService } from './shared/services/user.service';
-import { GoogleApiModule, NG_GAPI_CONFIG } from 'ng-gapi';
-import { GoogleButtonComponent } from './google-button/google-button.component';
-import { AuthGuard } from './shared/guards/auth.guard';
+import { UserControlsComponent } from './components';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    GoogleButtonComponent
+    UserControlsComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'my-app'}),
@@ -33,7 +35,6 @@ import { AuthGuard } from './shared/guards/auth.guard';
   ],
   providers: [
     AuthGuard,
-    UserService,
   ],
   bootstrap: [AppComponent]
 })

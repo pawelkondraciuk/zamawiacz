@@ -1,0 +1,39 @@
+<div class="active-orders__container">
+  <div class="row justify-content-md-center">
+    <mat-card class="col-md-12">
+      <mat-card-title>
+        Active Orders
+      </mat-card-title>
+      <mat-card-content>
+        <mat-table #table [dataSource]="tableData">
+            <ng-container matColumnDef="title">
+              <mat-header-cell *matHeaderCellDef> Order title </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.title}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="deliveryCost">
+              <mat-header-cell *matHeaderCellDef> Delivery cost </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.deliveryCost}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="paymentMethod">
+              <mat-header-cell *matHeaderCellDef> Payment method </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.paymentMethod}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="orderer">
+              <mat-header-cell *matHeaderCellDef> Orderer </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.orderer}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="options">
+              <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+              <mat-cell *matCellDef="let row">
+                <mat-icon (click)="editClickHandler(row.id)" class="active-orders__options-icon">plus_one</mat-icon>
+                <mat-icon (click)="editClickHandler(row.id)" class="active-orders__options-icon">mode_edit</mat-icon>
+                <mat-icon (click)="removeClickHandler(row.id)" class="active-orders__options-icon">delete</mat-icon>
+              </mat-cell>
+            </ng-container>
+          <mat-header-row *matHeaderRowDef="columnsHeaders"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: columnsHeaders;"></mat-row>
+        </mat-table>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

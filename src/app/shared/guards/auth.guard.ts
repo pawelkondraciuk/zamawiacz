@@ -9,11 +9,11 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 
-import { UserService } from '../services/user.service';
+import { AuthService } from '../services/auth.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
-  constructor(private userService: UserService,
+  constructor(private authService: AuthService,
               private router: Router) {
   }
 
@@ -34,11 +34,11 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
   }
 
   private handleAuth(url: string): boolean {
-    if (this.userService.isLoggedIn()) {
+    if (this.authService.isLoggedIn) {
       return true;
     }
 
-    this.router.navigateByUrl('/login');
+    this.router.navigateByUrl('/user');
 
     return false;
   }

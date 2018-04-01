@@ -5,3 +5,12 @@ export interface User {
 export interface UsersQuery {
   users: User[];
 }
+ export interface MeQuery {
+   me: User;
+ }
+
+ export interface LoginUserData {
+  name: string;
+  googleId: string;
+  _id: string;
+}

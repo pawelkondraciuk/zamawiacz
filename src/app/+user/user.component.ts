@@ -1,14 +1,14 @@
 import { Component, OnInit, ElementRef, NgZone } from '@angular/core';
 import { UserDataService } from '../shared/services/user-data.service';
 import { User } from '../shared/models/user';
-import { UserService } from '../shared/services/user.service';
+import { AuthService } from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css']
 })
-export class UserComponent implements OnInit {
+export class UserComponent {
 
   users: User[];
 
@@ -20,15 +20,9 @@ export class UserComponent implements OnInit {
 
   constructor(
     private userData: UserDataService,
-    private userService: UserService,
+    private authService: AuthService,
     private ngZone: NgZone,
   ) { }
-
-  ngOnInit() {
-    this.userData.getUsers().subscribe((users) => {
-      this.users = users;
-    });
-  }
 
   remove(user: User) {
     if (this.userToRemove) {
@@ -78,7 +72,7 @@ export class UserComponent implements OnInit {
 
   logout() {
     this.ngZone.run(() => {
-      this.userService.signOut();
+      this.authService.signOut();
     });
   }
 }

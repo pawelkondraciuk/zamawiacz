@@ -4,17 +4,20 @@ import 'rxjs/add/operator/map';
 
 import * as Query from '../graphql/queries';
 import * as Mutations from '../graphql/mutations';
-import { UsersQuery, User } from '../models/user';
+import { UsersQuery, User, MeQuery } from '../models/user';
 
+export interface UserDataResponse {
+  me?: User;
+}
 @Injectable()
 export class UserDataService {
 
   constructor(private apollo: Apollo) { }
 
-  getUsers() {
-    return this.apollo.watchQuery<UsersQuery>({ query: Query.Users })
+  getCurrentUserData() {
+    return this.apollo.watchQuery<MeQuery>({ query: Query.Me })
       .valueChanges
-      .map((result) => result.data.users);
+      .map((result) => result.data.me);
   }
 
   createUser(name: string) {
