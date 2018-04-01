@@ -44,7 +44,7 @@ export class CreateOrderComponent {
     this.createOrder(newOrderData);
   }
 
-  public createOrder(data: NewOrderInputData) {
+  private createOrder(data: NewOrderInputData) {
     this.ordersService.createOrder(data)
       .subscribe((res) => {
         this.router.navigateByUrl('/orders');
