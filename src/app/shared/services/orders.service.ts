@@ -1,12 +1,15 @@
-import { Observable } from 'rxjs/Observable';
-import { NewOrderInputData, Order } from './../models/order';
-import { AllOrders, OrderById } from './../graphql/queries/orders';
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 
 import * as Query from '../graphql/queries/orders';
 
+import { NewOrderInputData, Order } from './../models/order';
+
+import { Observable } from 'rxjs/Observable';
+
 import gql from 'graphql-tag';
+
+import { AllOrders, OrderById } from './../graphql/queries/orders';
 
 @Injectable()
 export class OrdersService {
@@ -57,9 +60,20 @@ export class OrdersService {
     });
   }
 
-  public getById(orderId: string): any {
+  public getById(orderId: string): Observable<any> {
     return this.apollo.watchQuery<any>({
       query: Query.OrderById,
+      variables: {
+        id: orderId,
+      }
+    })
+    .valueChanges
+    .switchMap((res) => Observable.of(res.data.order));
+  }
+
+  public getOrderDetails(orderId: string): Observable<any> {
+    return this.apollo.watchQuery<any>({
+      query: Query.OrderDetails,
       variables: {
         id: orderId,
       }
@@ -79,6 +93,4 @@ export class OrdersService {
       this.cache = new Map(preparedData);
     });
   }
-
-
 }

@@ -7,7 +7,12 @@ import { OrdersRoutingModule } from './orders-routing.module';
 import { CreateOrderComponent } from './create-order/create-order.component';
 import { ActiveOrdersComponent } from './active-orders/active-orders.component';
 import { EditOrderComponent } from './edit-order/edit-order.component';
+import { SingleOrderComponent } from './single-order/single-order.component';
+
+import { CreateOrderItemComponent } from './create-order-item/create-order-item.component';
+
 import { OrdersService } from '../shared/services/orders.service';
+import { OrderItemsService } from '../shared/services/orderItems.service';
 
 @NgModule({
   imports: [
@@ -18,9 +23,12 @@ import { OrdersService } from '../shared/services/orders.service';
     ActiveOrdersComponent,
     CreateOrderComponent,
     EditOrderComponent,
+    CreateOrderItemComponent,
+    SingleOrderComponent,
   ],
   providers: [
     OrdersService,
+    OrderItemsService,
   ]
 })
 export class OrdersModule { }

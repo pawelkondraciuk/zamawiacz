@@ -21,7 +21,6 @@ export default {
     description: 'Get order by ID',
     args: { id: { type: GraphQLID } },
     resolve: (root, {id}) => {
-      return OrderModel.findById(new mongoose.Types.ObjectId(id));
-    }
+      return OrderModel.findById(new mongoose.Types.ObjectId(id)).populate('user').populate('orderItems').exec();    }
   },
 };

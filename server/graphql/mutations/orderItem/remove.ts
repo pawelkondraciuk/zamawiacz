@@ -12,10 +12,11 @@ const removeOrderItem = {
     }
   },
   resolve(root, {id}, context) {
-    const removedOrderItem = OrderItemModel.remove({
-      id: new mongoose.Types.ObjectId(id),
+    const removedOrderItem = OrderItemModel.findByIdAndRemove({
+      _id: new mongoose.Types.ObjectId(id),
       user: new mongoose.Types.ObjectId(context.id)
     }).exec();
+
     if (!removedOrderItem) {
       throw new Error('Error');
     }

@@ -1,3 +1,5 @@
+import { OrderItem } from './orderItem';
+
 export interface NewOrderInputData {
   name: string;
   deliveryCost: number;
@@ -10,7 +12,7 @@ export interface Order {
   completedAt?: string;
   createdAt?: string;
   deliveryCost?: number;
-  orderItems?: any[];
+  orderItems?: OrderItem[];
   paymentMethod?: string;
   status?: string;
   user?: any;

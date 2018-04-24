@@ -9,6 +9,7 @@ import { GoogleButtonComponent } from './components';
 
 import { GoogleLoginButtonDirective } from './directives';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { OrderItemsService } from './services/orderItems.service';
 
 @NgModule({
   imports: [
