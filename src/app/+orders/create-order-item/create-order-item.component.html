@@ -1,0 +1,39 @@
+<div class="container">
+    <div class="row justify-content-md-center">
+      <mat-card class="col-md-12">
+        <mat-card-title>
+          Add your order item
+        </mat-card-title>
+        <mat-card-content>
+          <div class="row justify-content-md-left">
+            <div class="col-md-6">
+              <form class="form" (ngSubmit)="onFormSubmit(orderItemForm.value)" [formGroup]="orderItemForm">
+                <mat-form-field
+                  class="d-block col-md-12">
+                  <input matInput formControlName="name" placeholder="Order name" required>
+                  <mat-error *ngIf="orderItemForm.get('name').hasError('required')">This field is required!</mat-error>
+                  <mat-error *ngIf="orderItemForm.get('name').hasError('minlength')">Min-length: 3 chars</mat-error>
+                </mat-form-field>
+                <mat-form-field class="d-block col-md-4">
+                  <input matInput formControlName="price" placeholdser="Price">
+                  <mat-error *ngIf="orderItemForm.get('price').hasError('required')">This field is required!</mat-error>            
+                  <mat-error *ngIf="orderItemForm.get('price').hasError('pattern')">This field is numeric only!</mat-error>            
+                </mat-form-field>
+                <div class="d-block col-md-12">
+                  <button
+                    mat-raised-button
+                    class="float-md-right"
+                    color="accent"
+                    [disabled]="orderItemForm.invalid"
+                  >
+                    Add order item
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  
