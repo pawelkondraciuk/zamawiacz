@@ -15,7 +15,7 @@ import { OrderItem } from './../../shared/models/orderItem';
   styleUrls: ['./active-orders.component.css']
 })
 export class ActiveOrdersComponent implements OnInit {
-  public columnsHeaders = ['title', 'orderer', 'deliveryCost', 'paymentMethod', 'options'];
+  public columnsHeaders = ['name', 'orderer', 'deliveryCost', 'paymentMethod', 'options'];
   public tableData: Observable<Order[]>;
 
   constructor(
@@ -34,7 +34,7 @@ export class ActiveOrdersComponent implements OnInit {
         return orders.map((order) => {
           return {
             id: order.id,
-            title: order.name,
+            name: order.name,
             deliveryCost: order.deliveryCost,
             paymentMethod: order.paymentMethod,
             orderer: order.user.name,

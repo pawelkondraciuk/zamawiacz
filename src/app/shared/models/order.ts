@@ -14,6 +14,15 @@ export interface Order {
   deliveryCost?: number;
   orderItems?: OrderItem[];
   paymentMethod?: string;
+  orderer?: string;
   status?: string;
   user?: any;
+}
+
+export interface OrderQuery {
+  order: Order;
+}
+
+export interface AllOrdersQuery {
+  orders: Order[];
 }

@@ -6,9 +6,9 @@
       </mat-card-title>
       <mat-card-content>
         <mat-table #table [dataSource]="tableData">
-            <ng-container matColumnDef="title">
-              <mat-header-cell *matHeaderCellDef> Order title </mat-header-cell>
-              <mat-cell *matCellDef="let row"> {{row.title}} </mat-cell>
+            <ng-container matColumnDef="name">
+              <mat-header-cell *matHeaderCellDef> Order name </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
             </ng-container>
             <ng-container matColumnDef="deliveryCost">
               <mat-header-cell *matHeaderCellDef> Delivery cost </mat-header-cell>
