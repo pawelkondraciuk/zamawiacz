@@ -9,7 +9,12 @@ export default {
     type: new GraphQLList(OrderType),
     description: 'Get order list',
     resolve: () => {
-      const orders = OrderModel.find().populate('user').populate('orderItems').exec();
+      const orders = OrderModel
+        .find()
+        .populate('user')
+        .populate('orderItems')
+        .exec();
+
       if (!orders) {
         throw new Error('Error');
       }
@@ -21,7 +26,11 @@ export default {
     description: 'Get order by ID',
     args: { id: { type: GraphQLID } },
     resolve: (root, {id}) => {
-      return OrderModel.findById(new mongoose.Types.ObjectId(id));
+      return OrderModel
+        .findById(new mongoose.Types.ObjectId(id))
+        .populate('user')
+        .populate('orderItems')
+        .exec();
     }
   },
 };

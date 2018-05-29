@@ -1,0 +1,7 @@
+.order-itemsp__delete-icon {
+  color: gray;
+}
+
+.order-itemsp__delete-icon:hover {
+  color: black;
+}

@@ -40,6 +40,29 @@ export const OrderById = gql`
   }
 `;
 
+export const OrderDetails = gql`
+  query OrderById($id: ID) {
+    order(id: $id) {
+      id
+      name
+      createdAt
+      completedAt
+      deliveryCost
+      paymentMethod
+      status
+      user {
+        id
+        name
+      }
+      orderItems {
+        id
+        name
+        price
+      }
+    }
+  }
+`;
+
 export const OrderCreate = gql`
   mutation OrderCreate (
     $name: String!,

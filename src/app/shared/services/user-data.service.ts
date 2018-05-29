@@ -12,12 +12,17 @@ export interface UserDataResponse {
 @Injectable()
 export class UserDataService {
 
+  private currentUser: any;
+
   constructor(private apollo: Apollo) { }
 
   getCurrentUserData() {
     return this.apollo.watchQuery<MeQuery>({ query: Query.Me })
       .valueChanges
-      .map((result) => result.data.me);
+      .map((result) => result.data.me)
+      .do((currentUser) => {
+        this.currentUser = currentUser;
+      });
   }
 
   createUser(name: string) {
@@ -35,6 +40,14 @@ export class UserDataService {
           proxy.writeQuery({ query: Query.Users, data });
         }
       });
+  }
+
+  getUserId() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) {
+      return null;
+    }
+    return currentUser.user._id;
   }
 
   removeUser(user: User) {

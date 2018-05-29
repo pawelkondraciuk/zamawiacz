@@ -1,3 +1,5 @@
+import { OrderItem } from './orderItem';
+
 export interface NewOrderInputData {
   name: string;
   deliveryCost: number;
@@ -10,8 +12,17 @@ export interface Order {
   completedAt?: string;
   createdAt?: string;
   deliveryCost?: number;
-  orderItems?: any[];
+  orderItems?: OrderItem[];
   paymentMethod?: string;
+  orderer?: string;
   status?: string;
   user?: any;
+}
+
+export interface OrderQuery {
+  order: Order;
+}
+
+export interface AllOrdersQuery {
+  orders: Order[];
 }

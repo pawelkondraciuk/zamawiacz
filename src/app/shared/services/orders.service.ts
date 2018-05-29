@@ -1,17 +1,29 @@
-import { Observable } from 'rxjs/Observable';
-import { NewOrderInputData, Order } from './../models/order';
-import { AllOrders, OrderById } from './../graphql/queries/orders';
 import { Injectable } from '@angular/core';
+
 import { Apollo } from 'apollo-angular';
+import gql from 'graphql-tag';
 
 import * as Query from '../graphql/queries/orders';
 
-import gql from 'graphql-tag';
+import {
+  NewOrderInputData,
+  Order,
+  OrderQuery,
+  AllOrdersQuery,
+} from './../models/order';
+
+import {
+  AllOrders,
+  OrderById
+} from './../graphql/queries/orders';
+
+import { Observable } from 'rxjs/Observable';
+
 
 @Injectable()
 export class OrdersService {
 
-  private cache: Map<string, Order>;
+  private cache: Map<string, Order> = new Map();
 
   constructor(
     private apollo: Apollo,
@@ -57,9 +69,9 @@ export class OrdersService {
     });
   }
 
-  public getById(orderId: string): any {
-    return this.apollo.watchQuery<any>({
-      query: Query.OrderById,
+  public getOrderDetails(orderId: string): Observable<Order> {
+    return this.apollo.watchQuery<OrderQuery>({
+      query: Query.OrderDetails,
       variables: {
         id: orderId,
       }
@@ -68,17 +80,14 @@ export class OrdersService {
     .switchMap((res) => Observable.of(res.data.order));
   }
 
-  public getOrders() {
-    return this.apollo.watchQuery<any>({
+  public getOrders(): Observable<Order[]> {
+    return this.apollo.watchQuery<AllOrdersQuery>({
       query: Query.AllOrders,
     })
     .valueChanges
     .switchMap((res) => Observable.of(res.data.orders))
     .do((orders) => {
-      const preparedData = orders.map((order) => [order.id, order]);
-      this.cache = new Map(preparedData);
+      orders.forEach((order) => this.cache.set(order.id, order));
     });
   }
-
-
 }
