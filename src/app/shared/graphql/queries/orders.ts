@@ -11,9 +11,11 @@ export const AllOrders = gql`
       paymentMethod
       status
       user {
+        id
         name
       }
       orderItems {
+        id
         name
         price
       }

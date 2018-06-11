@@ -34,7 +34,6 @@ export class SingleOrderComponent implements OnInit {
   ngOnInit() {
     this.currentOrderId = this.activatedRoute.snapshot.params.id;
     this.currentUserId = this.userDataService.getUserId();
-    console.log(this.currentUserId);
     this.fetchCurrentOrder();
   }
 

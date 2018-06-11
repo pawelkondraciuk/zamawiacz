@@ -43,16 +43,19 @@ export class ActiveOrdersComponent implements OnInit {
       });
   }
 
-  public removeClickHandler(id: string) {
+  public removeClickHandler(event: MouseEvent, id: string) {
+    event.stopPropagation();
     this.ordersService.removeOrder(id)
-      .subscribe(() => this.router.navigateByUrl('/orders'));
+      .subscribe(() => this.router.navigateByUrl('orders'));
   }
 
-  public editClickHandler(id: string) {
+  public editClickHandler(event: MouseEvent, id: string) {
+    event.stopPropagation();
     this.router.navigateByUrl(`orders/edit/${id}`);
   }
 
-  public addOrderItem(id: string) {
+  public addOrderItem(event: MouseEvent, id: string) {
+    event.stopPropagation();
     this.router.navigateByUrl(`orders/items/create/${id}`);
   }
 
